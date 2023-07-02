@@ -1,118 +1,103 @@
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { useProvider, useSigner, useAccount } from 'wagmi'
+import { getVendors } from '../utils'
+import VendorCard from '../components/VendorCard'
+import CreateAccountModal from "@/components/CreateAccountModal";
 
-const inter = Inter({ subsets: ['latin'] })
+interface UserData {
+  id: string;
+  rating: string;
+  earnings: string;
+  transactionCount: any;
+  image: any;
+  businessName: any;
+  price: any;
+  vendor: any;
+}
 
-export default function Home() {
+const Home = () => {
+
+  const [accountModal, setAccountModal] = useState<boolean>(false)
+  const [vendors, setVendors] = useState<UserData | undefined>(undefined)
+
+  const getVendorsHandler = async () => {
+    const res = await getVendors()
+    setVendors(res)
+  }
+
+  const hideModal = () => {
+    setAccountModal(false)
+  }
+
+  useEffect(() => {
+
+    getVendorsHandler()
+
+  }, [getVendors])
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.tsx</code>
+    <div className="bg-black-1 flex flex-col items-center justify-center px-4 py-12 md:py-20 mx-auto md:px-10 lg:px-16 xl:px-24">
+      <div className='container flex flex-col items-center justify-center px-4 py-5 mx-auto md:px-10 lg:px-16 xl:px-24'>
+        <p className="text-4xl md:text-6xl xl:text-8xl py-2 text-white font-bold leading-tight text-center font-ClashDisplay">
+          Your One-Stop Spot for Freelance
+          <span className='bg-clip-text text-transparent bg-gradient-to-b from-blue-1 to-green-1'>Talent</span>
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+        <p className="text-lg my-4 md:px-[48px] lg:px-40 font-light leading-normal text-center text-white">
+          Find the perfect freelancer for your project and pay them easily and securely using our platform's smart contract technology
+        </p>
+      </div>
+      {accountModal && <div className="fixed inset-0 flex items-center justify-center z-[1065]">
+        <div onClick={() => setAccountModal(false)} className="fixed inset-0 bg-gray-800 opacity-90"></div>
+        <div className="bg-black p-6 rounded-md shadow-lg z-10">
+          <CreateAccountModal hideModal={hideModal} />
         </div>
+      </div>}
+      <div className='container flex gap-4 flex-col sm:flex-row justify-center items-center'>
+        <button onClick={() => setAccountModal(true)} className='bg-gradient-to-b from-blue-1 to-green-1 rounded-3xl p-[1px] '>
+          <span className='inline-flex w-40 px-4 py-3 md:px-8  md:py-6 2xl:px-16 items-center justify-center text-base text-white bg-black-1 rounded-3xl  '>
+            Register
+            <Image className='w-4 md:w-4 h-4 ml-2 2xl:w-8' src={require ('../assets/img/vector-arrow.svg')} alt="feat" />
+          </span>
+        </button>
+        <Link href='#vendors' className='inline-flex w-40 px-4 py-3 md:px-8 md:py-6 2xl:px-16 items-center justify-center text-base text-white bg-gradient-to-b from-blue-500 to-green-500 rounded-3xl'>
+          Hire
+          <Image className='w-4 md:w-4 h-4 ml-2 2xl:w-8' src={require ('../assets/img/vector-arrow.svg')} alt="feat" />
+        </Link>
       </div>
+      <div className='flex flex-col items-center justify-center w-full'>
+        <p className="text-5xl p-2 w-fit mt-40 font-bold leading-10 text-center text-white font-ClashDisplay">Available Talents</p>
+        <p className="text-lg my-2 font-light leading-6 text-center text-white w-3/5 ">Discover skilled and experienced freelancers who are ready to tackle your projects. From web developers to graphic designers, our community has it all</p>
+        <div id="vendors" className='my-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+          {vendors && vendors.map(vendor => (
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+            <VendorCard
+              key={vendor.id}
+              id={vendor.id.toString()}
+              rating={vendor.rating.toString()}
+              earnings={vendor.totalAmount.toString()}
+              transactionCount={vendor.transCount.toString()}
+              image={vendor.filePath}
+              businessName={vendor.businessName}
+              price={vendor.price}
+              vendor={vendor.vendorAddress}
+              getVendorsHandler={getVendorsHandler}
+            />
+          ))}
+        </div>
+        {vendors && <div className="inline-flex space-x-4 ml-auto mr-3  items-end justify-start">
+          <Link href='#' className="text-sm font-book text-green-1 leading-tight text-center">1</Link>
+          <Link href='#' className="text-sm font-book leading-tight text-center text-white">2</Link>
+          <Link href='#' className="text-sm font-book leading-tight text-center text-white">3</Link>
+          <Link href='#' className="text-sm font-book leading-tight text-center truncate text-white">....</Link>
+          <Link href='#' className="text-sm font-book leading-tight text-center text-white">10</Link>
+        </div>}
+
       </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   )
 }
+
+export default Home
+

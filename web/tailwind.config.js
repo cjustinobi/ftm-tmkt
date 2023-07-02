@@ -7,12 +7,29 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        'black-1': '#0F0F0F',
+        'black-2': '#0D0D0D',
+        'green-1': '#38B081',
+        'blue-1': '#1F7FF0',
+        'yellow-1': '#f09c1f',
+        'red-1': '#c13530',
+        'bright-grey-1': '#999999',
+        'dark-grey-1': '#141414',
+        'warning-1': '#9FB038',
+        'cancel-1': '#B04638',
+        'blue-green': ['#1F7FF0', '#38B081'],
+        gradientColorStops: {
+          'blue-green': ['#1F7FF0', '#38B081'],
+        },
       },
+      fontFamily: {
+        ClashDisplay: [ 'Clash Display', 'sans-serif'],
+        circularStd: ['Circular Std', 'sans-serif' ]
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tw-elements/dist/plugin')
+  ]
 }
