@@ -71,11 +71,11 @@ const JobCard: React.FC<TransactionCardProps> = ({
         {(STATUS(status) === 'InProgress') && <div className="flex justify-between">
           <button onClick={cancelHandler} className='flex flex-row space-x-2 items-center justify-center w-full py-3 bg-gradient-to-b from-yellow-1 to-red-1 rounded-lg'>
             <span className='text-sm font-normal text-white'>Cancel</span>
-            <Image className='w-2' src={require('../assets/img/cancel.png')}></Image>
+            <Image className='w-2' src={require('../assets/img/cancel.png')} alt="app pix" />
           </button>
           <button onClick={reviewHandler} className="flex flex-row space-x-2 ml-1 items-center justify-center w-full py-3 bg-gradient-to-tr from-blue-1 to-green-1 rounded-lg">
             <span className='text-sm font-normal text-white'>Submit</span>
-            <Image className='w-2' src={require('../assets/img/vector-arrow.svg')}></Image>
+            <Image className='w-2' src={require('../assets/img/vector-arrow.svg')} alt="app pix" />
           </button>
         </div>}
       </div>

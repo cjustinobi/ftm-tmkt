@@ -1,8 +1,7 @@
 import { ethers } from 'ethers'
 import Image from 'next/image'
-import { createTransaction, getAccount } from '../utils'
+import { createTransaction } from '../utils'
 import { useAccount } from 'wagmi'
-import {useEffect, useState} from 'react'
 
 interface VendorCardProps {
   id: string
@@ -29,22 +28,11 @@ const VendorCard: React.FC<VendorCardProps> = ({
  }) => {
 
   const { address } = useAccount()
-  const [masaAddress, setMasaAddress] = useState('')
 
   const hire = async () => {
     await createTransaction(id, vendor, price.toString())
     getVendorsHandler()
   }
-
-  const getAccountHandler = async () => {
-    const res = await getAccount(true)
-    setMasaAddress(res)
-  }
-
-  useEffect(() => {
-    getAccountHandler()
-
-  }, [masaAddress])
 
   return (
 
@@ -81,9 +69,9 @@ const VendorCard: React.FC<VendorCardProps> = ({
             <p className='text-sm font-normal leading-5 text-white'>{transactionCount}</p>
           </div>
         </div>
-        {(vendor !== masaAddress) && <button onClick={hire} className='flex flex-row space-x-2 items-center justify-center w-full py-3 bg-gradient-to-b from-blue-1 to-green-1 rounded-lg'>
+        {(vendor !== address) && <button onClick={hire} className='flex flex-row space-x-2 items-center justify-center w-full py-3 bg-gradient-to-b from-blue-1 to-green-1 rounded-lg'>
           <span className='text-sm font-normal leading-5 text-white'>Hire</span>
-          <Image className='w-2' src={require('../assets/img/vector-arrow.svg')}></Image>
+          <Image className='w-2' src={require('../assets/img/vector-arrow.svg')} alt="app pix" />
         </button>}
       </div>
     </div>
