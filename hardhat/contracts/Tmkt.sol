@@ -28,7 +28,6 @@ contract Tmkt {
     uint256 totalAmount;
     uint256 transactionCount;
     int256 rating;
-    string soulName;
   }
 
   struct Transaction {
@@ -71,8 +70,7 @@ contract Tmkt {
     string memory _profession,
     string memory _filePath,
     string memory _description,
-    uint256 _price,
-    string memory _soulName
+    uint256 _price
   ) public {
 
     require(vendorExists[msg.sender] == false, 'Vendor already exists');
@@ -90,7 +88,6 @@ contract Tmkt {
     vendor.price = _price;
     vendor.totalAmount = totalAmount;
     vendor.transactionCount = transactionCount;
-    vendor.soulName = _soulName;
 
     vendorExists[msg.sender] = true;
 
@@ -207,8 +204,7 @@ contract Tmkt {
     uint256 price,
     uint256 totalAmount,
     uint256 transCount,
-    int256 rating,
-    string memory soulName
+    int256 rating
   ) {
 
     Vendor storage vendor = vendors[_index];
@@ -223,8 +219,7 @@ contract Tmkt {
     vendor.price,
     vendor.totalAmount,
     vendor.transactionCount,
-    vendor.rating,
-    vendor.soulName
+    vendor.rating
     );
   }
 

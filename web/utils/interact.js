@@ -1,8 +1,9 @@
-import { providers, Contract } from 'ethers'
+import { providers, Contract, ethers } from 'ethers'
 import Tmkt from '../Tmkt.json'
 import { priceToWei } from './helpers'
 
-export const contractAddress = '0x3DfC2625D69957d8a7Be29eDD25b74165bE10e60'
+// export const contractAddress = '0x3d61d0b5E56f2b87D6C2c452F4D94DaE172042eA'
+export const contractAddress = '0x3DfC2625D69957d8a7Be29eDD25b74165bE10e60' // testnet
 
 export async function getContract(useProvider = false) {
 
@@ -12,6 +13,7 @@ export async function getContract(useProvider = false) {
     const { ethereum } = window
 
     const provider = new providers.Web3Provider(ethereum)
+    // const provider = new ethers.providers.JsonRpcProvider('https://rpcapi.fantom.network')
     const signer = provider.getSigner()
     contract = new Contract(contractAddress, Tmkt.abi, useProvider ? provider : signer)
 
@@ -22,7 +24,7 @@ export async function getContract(useProvider = false) {
 }
 
 export const createAccount = async (name, service, imagePath, description, serviceCharge, soulName) => {
-
+debugger
   try {
     const contract = await getContract()
     const res = await contract.createVendor(name, service, imagePath, description, priceToWei(serviceCharge), soulName)
