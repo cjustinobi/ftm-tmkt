@@ -1,8 +1,12 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { createAccount } from '../utils'
 
-const CreateAccountModal = ({hideModal}) => {
+interface CreateAccountModalProps {
+  hideModal: () => void;
+}
+
+const CreateAccountModal: React.FC<CreateAccountModalProps> = ({hideModal}) => {
 
   const router = useRouter()
 
