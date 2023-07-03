@@ -1,32 +1,22 @@
 import { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
-import { getVendorTransactions, getAccount } from '@/utils'
+import { getVendorTransactions } from '@/utils'
 import JobCard from '@/components/JobCard'
 
 const MyJobs = () => {
 
   const { address } = useAccount()
 
-  const [masaAddress, setMasaAddress] = useState('')
   const [transactions, setTransactions] = useState<any[]>([])
 
   const getTransactionsHandler = async () => {
-    const addr = masaAddress ? masaAddress : address
-    console.log('addr')
-    console.log(addr)
-    setTransactions(await getVendorTransactions(addr))
-  }
-
-  const getAccountHandler = async () => {
-    const res = await getAccount(true)
-    setMasaAddress(res)
+    setTransactions(await getVendorTransactions(address))
   }
 
   useEffect(() => {
-    getAccountHandler()
     getTransactionsHandler()
 
-  }, [masaAddress])
+  }, [address])
 
   return (
     <div className="bg-black-1 flex flex-col items-center justify-center px-4 py-12 md:py-20 mx-auto md:px-10 lg:px-16 xl:px-24">

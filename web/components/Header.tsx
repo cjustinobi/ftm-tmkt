@@ -2,9 +2,10 @@ import { Disclosure } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import Link from 'next/link'
-import Image from "next/image";
+import { useRouter } from 'next/router'
 
 export default function Header() {
+  const router = useRouter()
     return (
       <Disclosure as="nav" className="bg-[#1e1e1e] border-b border-black">
         {({ open }) => (
@@ -22,18 +23,32 @@ export default function Header() {
                     )}
                   </Disclosure.Button>
                 </div>
-                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-1 justify-between">
                   <div className="flex flex-shrink-0 items-center text-gray-100">
                     <Link href="/" className="font-semibold">Tmkt</Link>
                     {/*<Image className="block h-8 w-auto sm:block lg:block" src="/logo.svg" width="24" height="24" alt="Celo Logo" />*/}
                   </div>
-                </div>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <ConnectButton showBalance={{smallScreen: true, largeScreen: false}} />
+                  <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <Link
+                      href="/my-transactions"
+                      className={`inline-flex items-center ${router.pathname === '/my-transactions' ? 'border-b-2 border-black' : ''} px-1 pt-1 text-sm font-bold text-white-200`}
+                    >
+                      My Transactions
+                    </Link>
+                    <Link
+                      href="/my-jobs"
+                      className={`inline-flex items-center ${router.pathname === '/my-jobs' ? 'border-b-2 border-black' : ''} px-1 pt-1 text-sm font-bold text-white-200`}
+                    >
+                      My Jobs
+                    </Link>
+                  </div>
+                
+                  <div className="flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <ConnectButton showBalance={{smallScreen: true, largeScreen: false}} />
+                  </div>
                 </div>
               </div>
             </div>
-  
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 pt-2 pb-4">
                 <Disclosure.Button

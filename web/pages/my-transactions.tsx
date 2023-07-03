@@ -1,6 +1,6 @@
 import { useState, useEffect, Key } from 'react'
 import { useAccount } from 'wagmi'
-import { getTransactions, getAccount } from '@/utils'
+import { getTransactions } from '@/utils'
 import TransactionCard from '@/components/TransactionCard'
 
 const MyTransactions = () => {
@@ -11,21 +11,14 @@ const MyTransactions = () => {
   const [transactions, setTransactions] = useState(undefined)
 
   const getTransactionsHandler = async () => {
-    const addr = masaAddress ? masaAddress : address
-    setTransactions(await getTransactions(addr))
+    setTransactions(await getTransactions(address))
   }
 
-
-  const getAccountHandler = async () => {
-    const res = await getAccount(true)
-    setMasaAddress(res)
-  }
 
   useEffect(() => {
-    getAccountHandler()
     getTransactionsHandler()
 
-  }, [masaAddress])
+  }, [address])
 
   return (
 
