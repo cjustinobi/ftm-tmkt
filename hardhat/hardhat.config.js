@@ -1,6 +1,6 @@
 require('dotenv').config()
 require('@nomiclabs/hardhat-waffle')
-// require("@nomicfoundation/hardhat-toolbox")
+require("@nomicfoundation/hardhat-toolbox")
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 
@@ -24,5 +24,10 @@ module.exports = {
       chainId: 4002,
       accounts: [PRIVATE_KEY]
     }
-  }
+  },
+  etherscan: {
+    apiKey: {
+      opera: "FUVX96N1IWNNKBZEV6EESMDPAATP9H5CB1"
+    }
+  },
 }
